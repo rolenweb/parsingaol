@@ -38,6 +38,16 @@ $list_theme = connectDb()->fetchRowMany('
 	FROM theme_keyword
 	');
 
+$spiders = connectDb()->fetchRowMany('
+	SELECT keyword.keyword,keyword.id,theme_keyword.name,spider_keyword.updated_at
+	FROM spider_keyword
+	LEFT JOIN keyword
+	ON spider_keyword.keyword_id=keyword.id
+	LEFT JOIN theme_keyword
+	ON spider_keyword.theme_keyword_id=theme_keyword.id
+	
+	');
+
 ?>
 	<div class="container">
 		<div class="row">
@@ -61,6 +71,44 @@ $list_theme = connectDb()->fetchRowMany('
 				</div>
 			</div>
 			<div class="col-sm-12">
+				<h3>Spider position</h3>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Theme</th>
+							<th>Keys</th>
+							<th>Current ID</th>
+							<th>Last ID</th>
+							<th>Updated</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if (empty($spiders) === false) :?>
+							<?php foreach ($spiders as $spider): ?>
+							<tr>
+								<td>
+									<?= $spider['name'] ?>
+								</td>
+								<td>
+									<?= $spider['keyword'] ?>
+								</td>
+								<td>
+									<?= $spider['id'] ?>
+								</td>
+								<td>
+									
+								</td>
+								<td>
+									<?= date("Y-m-d H:i:s",$spider['updated_at']) ?>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-12">
+				<h3>Last records</h3>
 				<table class="table table-bordered">
 					<thead>
 						<tr>
