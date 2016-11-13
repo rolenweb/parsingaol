@@ -1,9 +1,2 @@
-<Files index.php>
-
-AuthName "Users zone"
-
-AuthType Basic
-
-AuthUserFile /var/www/admin/pass/.htpasswd
-
-</Files> 
+Deny from all
+Allow from 93.120.176.115
