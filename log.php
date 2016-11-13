@@ -29,12 +29,9 @@ $logs = connectDb()->fetchRowMany('
 	FROM site
 	LEFT JOIN keyword
 	ON site.keyword_id=keyword.id
-	WHERE keyword.theme_keyword_id = :theme_id
 	ORDER BY site.created_at DESC
 	LIMIT 50
-	',[
-		':theme_id' => (empty($_GET["theme"]) === false) ? $_GET["theme"] : 2
-	]);
+	');
 
 $list_theme = connectDb()->fetchRowMany('
 	SELECT theme_keyword.id,theme_keyword.name

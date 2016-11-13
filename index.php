@@ -33,7 +33,7 @@ $list = connectDb()->fetchRowMany('
 	GROUP BY site.domain
 	ORDER BY nDomain DESC
 	',[
-		':theme_id' => (empty($_GET["theme"]) === false) ? $_GET["theme"] : 2
+		':theme_id' => (empty($_GET["theme"]) === false) ? $_GET["theme"] : null
 	]);
 
 $list_theme = connectDb()->fetchRowMany('
