@@ -1,6 +1,2 @@
-#Deny from all
-#Allow from 93.120.176.115
-AuthName "This is a private zone"
-AuthType Basic
-AuthUserFile /var/www/admin/pass/.htpasswd
-require valid-user
+Deny from all
+Allow from 93.120.176.115
