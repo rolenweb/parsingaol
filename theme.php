@@ -3,9 +3,15 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'a
 
 use Simplon\Mysql\Mysql;
 
-$line = readline("Title of the theme: ");
-readline_add_history($line);
-$keyword = rtrim(readline_info()['line_buffer']);
+
+$options = getopt("t:");
+
+if (empty($options['t'])) {
+	error('Title is not set. Please use: -t title');
+	return;
+}
+
+$keyword = rtrim($options['t']);
 if (empty($keyword) === false) {
 	if (connectDb()->fetchColumn('SELECT id FROM theme_keyword WHERE name = :name', array('name' => $keyword)) === null) {
 		$data[0] = [

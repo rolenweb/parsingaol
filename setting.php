@@ -9,7 +9,7 @@ use Simplon\Mysql\Mysql;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Domain stats</title>
+    <title>Setting</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -24,20 +24,10 @@ use Simplon\Mysql\Mysql;
   <body>
     
 <?php
-$list = connectDb()->fetchRowMany('
-	SELECT site.domain,COUNT(site.domain) AS nDomain,site.registered,site.created_at
-	FROM site
-	LEFT JOIN keyword
-	ON site.keyword_id=keyword.id
-	WHERE keyword.theme_keyword_id = :theme_id
-	GROUP BY site.domain
-	ORDER BY nDomain DESC
-	',[
-		':theme_id' => (empty($_GET["theme"]) === false) ? $_GET["theme"] : 2
-	]);
+
 
 $list_theme = connectDb()->fetchRowMany('
-	SELECT theme_keyword.id,theme_keyword.name
+	SELECT theme_keyword.id,theme_keyword.name,theme_keyword.created_at
 	FROM theme_keyword
 	');
 
@@ -63,31 +53,41 @@ $list_theme = connectDb()->fetchRowMany('
 				  	</ul>
 				</div>
 			</div>
+			<!--<div class="col-sm-12">
+				<h3>Add theme</h3>
+				<form action="save-theme.php">
+				  <div class="form-group">
+				    <label for="exampleInputEmail1">Name of Theme</label>
+				    <input type="text" class="form-control" placeholder="Theme" name="name", required="required">
+				  </div>
+				  
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div> -->
+
 			<div class="col-sm-12">
+				<h3>List of themes</h3>
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th>Domain</th>
-							<th>Frequency</th>
-							<th>Registered</th>
-							<th>Date</th>
+							<th>ID</th>
+							<th>Title</th>
+							<th>Created</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php if (empty($list) === false) :?>
-							<?php foreach ($list as $item): ?>
+						<?php if (empty($list_theme) === false) :?>
+							<?php foreach ($list_theme as $item): ?>
 							<tr>
 								<td>
-									<?= $item['domain'] ?>
+									<?= $item['id'] ?>
 								</td>
 								<td>
-									<?= $item['nDomain'] ?>
+									<?= $item['name'] ?>
 								</td>
+								
 								<td>
-									<?= $item['registered'] ?>
-								</td>
-								<td>
-									<?= date("Y-m-d",$item['created_at']) ?>
+									<?= date("Y-m-d H:i:s",$item['created_at']) ?>
 								</td>
 							</tr>
 							<?php endforeach; ?>

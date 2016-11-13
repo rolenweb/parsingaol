@@ -7,7 +7,7 @@ use Elkuku\Console\Helper\ConsoleProgressBar;
 use Simplon\Mysql\Mysql;
 
 
-$themes = connectDb()->fetchRowMany('SELECT * FROM theme_keyword');
+
 
 if (empty($themes)) {
 	error('Themes are not found. Please run script theme.php');
@@ -17,13 +17,30 @@ if (empty($themes)) {
 		info($theme['name'].': '.$theme['id']);
 	}
 }
-$line = readline("Choose the theme: ");
-readline_add_history($line);
-$theme_id = rtrim(readline_info()['line_buffer']);
+$options = getopt("t:f:");
 
-$line = readline("Name of the folder with files: ");
-readline_add_history($line);
-$folder = rtrim(readline_info()['line_buffer']);
+if (empty($options['t'])) {
+	error('The theme is null. Please use key: -t');
+	return;
+}
+
+if (empty($options['f'])) {
+	error('The name of folder is null. Please use key: -f');
+	return;
+}
+
+
+$theme_id = rtrim($options['t']);
+
+$themes = connectDb()->fetchRow('SELECT * FROM theme_keyword WHERE id = :id',[':id' => $theme_id]);
+
+if (empty($themes)) {
+	error('The theme is not found');
+	return;
+}
+info('Load keys for '.$themes['name']);
+
+$folder = rtrim($options['f']);
 
 if (file_exists($path_load_file.$folder.DIRECTORY_SEPARATOR) === false) {
 	error($path_load_file.$folder.DIRECTORY_SEPARATOR.' is not exists');

@@ -8,7 +8,24 @@ use Simplon\Mysql\Mysql;
 use Goutte\Client;
 use tools\CurlClient;
 
-$theme = chooseTheme();
+$options = getopt("t:");
+
+if (empty($options['t'])) {
+	error('The theme is null. Please use key: -t');
+	return;
+}
+
+$theme_id = rtrim($options['t']);
+
+$themes = connectDb()->fetchRow('SELECT * FROM theme_keyword WHERE id = :id',[':id' => $theme_id]);
+
+if (empty($themes)) {
+	error('The theme is not found');
+	return;
+}
+
+$theme = rtrim($options['t']);
+
 if (empty($theme)) {
 	error('Theme is not set');
 	return;

@@ -58,39 +58,42 @@ $list_theme = connectDb()->fetchRowMany('
 				    	<?php endforeach; ?>
 				    	<li role="separator" class="divider"></li>
 				    	<li><a href="log.php">Logs</a></li>
+				    	<li role="separator" class="divider"></li>
+				    	<li><a href="setting.php">Setting</a></li>
 				  	</ul>
 				</div>
 			</div>
 			<div class="col-sm-12">
 				<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Domain</th>
-						<th>Keyword</th>
-						<th>Registered</th>
-						<th>Date</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if (empty($logs) === false) :?>
-						<?php foreach ($logs as $item): ?>
+					<thead>
 						<tr>
-							<td>
-								<?= $item['domain'] ?>
-							</td>
-							<td>
-								<?= $item['keyword'] ?>
-							</td>
-							<td>
-								<?= $item['registered'] ?>
-							</td>
-							<td>
-								<?= date("Y-m-d H:i:s",$item['created_at']) ?>
-							</td>
+							<th>Domain</th>
+							<th>Keyword</th>
+							<th>Registered</th>
+							<th>Date</th>
 						</tr>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</tbody>
+					</thead>
+					<tbody>
+						<?php if (empty($logs) === false) :?>
+							<?php foreach ($logs as $item): ?>
+							<tr>
+								<td>
+									<?= $item['domain'] ?>
+								</td>
+								<td>
+									<?= $item['keyword'] ?>
+								</td>
+								<td>
+									<?= $item['registered'] ?>
+								</td>
+								<td>
+									<?= date("Y-m-d H:i:s",$item['created_at']) ?>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		
