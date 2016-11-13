@@ -1,7 +1,9 @@
-#
-AuthType Basic
-AuthName "Private zone"
-AuthUserFile /var/www/admin/pass/.htpasswd
 <Files index.php>
-Require valid-user 
-</Files>
+
+AuthName "Users zone"
+
+AuthType Basic
+
+AuthUserFile /var/www/admin/pass/.htpasswd
+
+</Files> 
